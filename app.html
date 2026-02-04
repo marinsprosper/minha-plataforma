@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Painel</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Sua Marca</h1>
+        <div class="muted small">Painel</div>
+      </div>
+      <div class="topnav" style="margin-left:auto">
+        <a class="link" href="/admin.html" id="adminLink" style="display:none">Admin</a>
+        <a class="link" href="#" id="logout">Sair</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="row">
+          <h2>Minha conta</h2>
+          <span class="pill" id="emailPill">—</span>
+        </div>
+        <div class="hr"></div>
+
+        <div class="row">
+          <div class="muted small">Comissão aplicada</div>
+          <div class="pill" id="commissionPill">—</div>
+        </div>
+
+        <label>Endereço DePix (fixo, editável)
+          <input id="wallet" placeholder="ex1..." />
+        </label>
+        <button class="btn" id="saveWallet">Salvar carteira</button>
+        <p class="muted small" id="walletMsg"></p>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <h2>Depósito (PIX → DePix)</h2>
+          <span class="pill" id="depStatusPill">—</span>
+        </div>
+        <div class="hr"></div>
+
+        <label>Valor (R$)
+          <input id="amount" placeholder="10,00" inputmode="decimal"/>
+        </label>
+        <button class="btn" id="createDeposit">Gerar cobrança PIX</button>
+        <p class="muted small" id="depMsg"></p>
+
+        <div class="hr"></div>
+
+        <div id="payBox" style="display:none">
+          <div class="row">
+            <div class="muted small">Pague o PIX e acompanhe</div>
+            <button class="btn ghost" id="refreshDeposit">Atualizar status</button>
+          </div>
+
+          <img class="qr" id="qrImg" alt="QR PIX" style="margin-top:10px"/>
+          <label class="small muted">PIX Copia e cola</label>
+          <textarea id="qrCopy" rows="4" readonly></textarea>
+
+          <div class="actions">
+            <button class="btn ghost" id="copyBtn">Copiar</button>
+          </div>
+
+          <div class="muted small" style="margin-top:8px">
+            ID: <code id="depId"></code>
+          </div>
+
+          <div class="muted small" style="margin-top:8px">
+            Bruto: <span id="gross"></span> • Comissão: <span id="fee"></span> • Líquido: <span id="net"></span>
+          </div>
+
+          <div class="muted small" style="margin-top:6px">
+            Repasse: <span class="pill" id="payoutPill">not_sent</span> (manual)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="row">
+        <h2>Saque (manual P2P)</h2>
+        <span class="muted small">você envia DePix → eu pago Pix</span>
+      </div>
+      <div class="hr"></div>
+
+      <div class="grid">
+        <div>
+          <label>Valor em DePix
+            <input id="wdAmount" placeholder="ex: 15.50" inputmode="decimal"/>
+          </label>
+          <label>Pix para receber (chave ou dados)
+            <input id="wdPix" placeholder="cpf / email / celular / aleatória"/>
+          </label>
+          <button class="btn" id="createWithdrawal">Criar pedido de saque</button>
+          <p class="muted small" id="wdMsg"></p>
+
+          <div id="wdInstructions" style="display:none;margin-top:12px">
+            <div class="muted small">Envie DePix para esta carteira (plataforma):</div>
+            <code id="platformWallet"></code>
+            <div class="muted small" style="margin-top:8px">Depois envie o TXID + comprovante abaixo.</div>
+          </div>
+        </div>
+
+        <div>
+          <label>ID do pedido (clique no histórico de saques)
+            <input id="wdId" placeholder="ex: 1" inputmode="numeric"/>
+          </label>
+          <label>TXID (id da transferência)
+            <input id="wdTxid" placeholder="cole o txid"/>
+          </label>
+          <label>Comprovante (imagem ou PDF)
+            <input id="wdFile" type="file" accept="image/*,application/pdf"/>
+          </label>
+          <button class="btn ghost" id="sendProof">Enviar TXID + comprovante</button>
+          <p class="muted small" id="proofMsg"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <div class="row">
+          <h2>Histórico de depósitos</h2>
+          <span class="muted small">últimos 100</span>
+        </div>
+        <div class="hr"></div>
+        <table class="table" id="depTable">
+          <thead>
+            <tr><th>Data</th><th>Bruto</th><th>Líquido</th><th>Status</th><th>ID</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <h2>Histórico de saques</h2>
+          <span class="muted small">últimos 100</span>
+        </div>
+        <div class="hr"></div>
+        <table class="table" id="wdTable">
+          <thead>
+            <tr><th>Data</th><th>Valor</th><th>Status</th><th>ID</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <p class="muted small" style="margin-top:10px">Clique num saque para preencher o ID automaticamente.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Admin • Sua Marca</h1>
+        <div class="muted small">comissões, usuários e saques</div>
+      </div>
+      <div class="topnav" style="margin-left:auto">
+        <a class="link" href="/app.html">Voltar</a>
+        <a class="link" href="/login.html" id="logout">Sair</a>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="row">
+          <h2>Comissão global</h2>
+          <span class="muted small">em %</span>
+        </div>
+        <div class="hr"></div>
+        <label>Comissão padrão (ex: 2.50)
+          <input id="globalPct" placeholder="2.50" inputmode="decimal"/>
+        </label>
+        <button class="btn" id="saveGlobal">Salvar</button>
+        <p class="muted small" id="globalMsg"></p>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <h2>Usuários</h2>
+          <span class="muted small">override por usuário</span>
+        </div>
+        <div class="hr"></div>
+        <table class="table" id="usersTable">
+          <thead>
+            <tr><th>Email</th><th>Wallet</th><th>Comissão</th><th>Ação</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <p class="muted small">Comissão em branco = usa a global. Limite: 0% a 50%.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="row">
+        <h2>Saques (manual)</h2>
+        <span class="muted small">validar TXID + pagar Pix fora</span>
+      </div>
+      <div class="hr"></div>
+
+      <table class="table" id="wdTable">
+        <thead>
+          <tr><th>ID</th><th>Usuário</th><th>Valor</th><th>Pix</th><th>Status</th><th>TXID</th><th>Comprovante</th><th>Ação</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="hr"></div>
+      <div class="grid">
+        <div>
+          <label>ID do saque
+            <input id="wdId" inputmode="numeric" placeholder="ex: 12"/>
+          </label>
+          <label>Novo status
+            <select id="wdStatus">
+              <option value="under_review">under_review</option>
+              <option value="approved">approved</option>
+              <option value="paid">paid</option>
+              <option value="rejected">rejected</option>
+              <option value="awaiting_transfer">awaiting_transfer</option>
+            </select>
+          </label>
+        </div>
+        <div>
+          <label>Nota admin (opcional)
+            <input id="wdNote" placeholder="ex: pago às 14:03"/>
+          </label>
+          <button class="btn" id="updateWd">Atualizar saque</button>
+          <p class="muted small" id="wdMsg"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>

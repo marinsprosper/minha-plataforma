@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Criar conta</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Sua Marca</h1>
+        <div class="muted small">Criar conta</div>
+      </div>
+      <div class="topnav" style="margin-left:auto">
+        <a class="link" href="/login.html">Já tenho conta</a>
+      </div>
+    </div>
+
+    <div class="card" style="max-width:720px;margin:0 auto">
+      <form id="f" class="grid">
+        <div>
+          <label>Nome (opcional) <input id="fullName"/></label>
+          <label>CPF (opcional) <input id="taxNumber" inputmode="numeric" placeholder="000.000.000-00"/></label>
+        </div>
+        <div>
+          <label>Email <input id="email" type="email" required/></label>
+          <label>Senha <input id="password" type="password" minlength="8" required/></label>
+          <button class="btn" type="submit">Criar conta</button>
+          <p id="msg" class="muted small"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="module">
+    import { register, getToken } from "./auth.js";
+    if(getToken()) location.href="/app.html";
+    const f = document.querySelector("#f");
+    const msg = document.querySelector("#msg");
+    f.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      msg.textContent="Criando...";
+      try{
+        await register({
+          fullName: fullName.value.trim(),
+          taxNumber: taxNumber.value.trim(),
+          email: email.value.trim(),
+          password: password.value
+        });
+        location.href="/app.html";
+      }catch(err){
+        msg.textContent = err.message;
+      }
+    });
+  </script>
+</body>
+</html>
