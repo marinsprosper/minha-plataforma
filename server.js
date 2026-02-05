@@ -26,8 +26,9 @@ const PLATFORM_DEPIX_ADDRESS = String(process.env.PLATFORM_DEPIX_ADDRESS || "").
 const DEFAULT_COMMISSION_BPS_ENV = Number(process.env.DEFAULT_COMMISSION_BPS || 250);
 const ADMIN_EMAIL = String(process.env.ADMIN_EMAIL || "").trim().toLowerCase();
 
-apapp.get("/", (req, res) => res.redirect("/index.html"));
-  p.use(express.static(path.join(__dirname, "public")));
+app.get("/", (req, res) => res.redirect("/index.html"));
+app.use(express.static(path.join(__dirname, "public")));
+
 
 function signToken(user) {
   return jwt.sign({ sub: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: "7d" });
