@@ -1,5 +1,6 @@
 import { getToken, logout } from "./auth.js";
 
+
 const token = getToken();
 if(!token) location.href="/login.html";
 
